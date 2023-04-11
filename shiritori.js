@@ -51,12 +51,13 @@ class Shiritori {
 
     play(word){
 
+        let copiedWords = [...this.words]
         if(!this.words.length && word){
             this.words.push(word)
         } else if(typeof word === "undefined"){
             return 
         } else{
-            let currentItem = this.words[this.words.length-1];
+            let currentItem = copiedWords.pop();
             let lastLetter = currentItem[currentItem.length-1];
             let firstLetter = word[0]
             let same = false
@@ -70,45 +71,44 @@ class Shiritori {
             if(firstLetter === lastLetter && !same){
                 this.words.push(word)
             } else if(firstLetter === lastLetter && same){
-                console.log(`Game over. "${word}" has already been said.`)
+                return `Game over. "${word}" has already been said.`
             } else {
                 this.game_over = true
-                let vowels = /[^$v]/
+                let vowels = /[^$v] || [^rfhlmnrsx]/
      
                 if(vowels.test(lastLetter)){
-                    console.log(`Game over. "${word}" doesn't start with an "${lastLetter}".`)
+                    return `Game over. "${word}" doesn't start with an "${lastLetter}".`
                 }else{
-                    console.log(`Game over. "${word}" doesn't start with a "${lastLetter}".`)
+                    return `Game over. "${word}" doesn't start with a "${lastLetter}".`
                 }
             } 
         }
-        console.log(this.words)
         return this.words
     }
 
     restart(){
         this.words = []
         this.game_over = false
-        console.log("Game restarted.")
         this.play()
+        return "Game restarted." 
     }
 }
 const myShiritori = new Shiritori()
 
 // Example 1
 
-myShiritori.play("apple"); // ["apple"] 
-myShiritori.play("ear"); // ["apple", "ear"] 
-myShiritori.play("rhino"); // ["apple", "ear", "rhino"] 
-myShiritori.play("corn"); // "game over"
+console.log(myShiritori.play("apple")); // ["apple"] 
+console.log(myShiritori.play("ear")); // ["apple", "ear"] 
+console.log(myShiritori.play("piano")); // ["apple", "ear", "rhino"] 
+console.log(myShiritori.play("corn")); // "game over"
 // Corn does not start with an "o". 
-myShiritori.words; // ["apple", "ear", "rhino"]
+console.log(myShiritori.words); // ["apple", "ear", "rhino"]
 // // Words should be accessible. 
-myShiritori.restart(); // "game restarted" 
+console.log(myShiritori.restart()); // "game restarted" 
 
 
 // Example 2
 
-myShiritori.play("hostess"); // ["hostess"] 
-myShiritori.play("stash"); // ["hostess", "stash"] 
-myShiritori.play("hostess"); // "game over"
+console.log(myShiritori.play("hostess")); // ["hostess"] 
+console.log(myShiritori.play("stash")); // ["hostess", "stash"] 
+console.log(myShiritori.play("hostess")); // "game over"
