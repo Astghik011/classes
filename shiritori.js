@@ -58,7 +58,7 @@ class Shiritori {
             return 
         } else{
             let currentItem = copiedWords.pop();
-            let lastLetter = currentItem[currentItem.length-1];
+            let lastLetter = currentItem.slice(-1);
             let firstLetter = word[0]
             let same = false
 
@@ -71,11 +71,12 @@ class Shiritori {
             if(firstLetter === lastLetter && !same){
                 this.words.push(word)
             } else if(firstLetter === lastLetter && same){
+                this.game_over = true
                 return `Game over. "${word}" has already been said.`
             } else {
                 this.game_over = true
                 let vowels = /[^$v] || [^rfhlmnrsx]/
-     
+                this.words = []
                 if(vowels.test(lastLetter)){
                     return `Game over. "${word}" doesn't start with an "${lastLetter}".`
                 }else{
@@ -87,8 +88,8 @@ class Shiritori {
     }
 
     restart(){
-        this.words = []
         this.game_over = false
+        this.words = []
         this.play()
         return "Game restarted." 
     }
